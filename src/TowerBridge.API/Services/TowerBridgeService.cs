@@ -24,9 +24,9 @@ namespace TowerBridge.API.Services
                     .Attributes["datetime"]
                     .Value;
                 var direction = n.SelectSingleNode("./td[@headers='view-field-direction-table-column']")
-                    .InnerText;
+                    .InnerText.Trim();
                 var vessel = n.SelectSingleNode("./td[@headers='view-field-vessel-table-column']")
-                    .InnerText;
+                    .InnerText.Trim();
 
                 var lift = new BridgeLift()
                 {
