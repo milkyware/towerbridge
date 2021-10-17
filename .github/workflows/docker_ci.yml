@@ -23,6 +23,9 @@ jobs:
     name: Build image and push
     runs-on: ubuntu-latest
     
+    env:
+      IMAGE_NAME: "towerbridge"
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -49,7 +52,7 @@ jobs:
           context: .
           platforms: linux/arm,linux/arm64,linux/amd64
           push: true
-          tags: "${{secrets.DOCKER_REGISTRY}}/${{secrets.DOCKER_USERNAME}}/towerbridge:ci"
+          tags: "${{secrets.DOCKER_REGISTRY}}/${{secrets.DOCKER_USERNAME}}/${{env.IMAGE_NAME}}:ci"
         
       - name: Image digest
         run: echo ${{steps.docker_build.outputs.digest}}
