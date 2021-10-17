@@ -48,6 +48,13 @@ jobs:
           tags: |
             "${{secrets.DOCKER_REGISTRY}}/${{secrets.DOCKER_USERNAME}}/${{env.IMAGE_NAME}}:latest"
             "${{secrets.DOCKER_REGISTRY}}/${{secrets.DOCKER_USERNAME}}/${{env.IMAGE_NAME}}:${{github.event.release.tag_name}}"
+            
+      - name: Update image description
+        uses: christian-korneck/update-container-description-action@v1
+        with:
+          destination_container_repo: "${{secrets.DOCKER_USERNAME}}/${{env.IMAGE_NAME}}"
+          provider: dockerhub
+          short_description: 'Tower Bridge Lift API'
           
       - name: Image digest
         run: echo ${{steps.docker_build.outputs.digest}}
