@@ -41,6 +41,7 @@ namespace TowerBridge.API.Services
         public async Task<BridgeLift> GetNextAsync()
         {
             return await GetAllAsync()
+                .Where(l => l.Date > DateTime.Now)
                 .OrderBy(l => l.Date)
                 .FirstOrDefaultAsync();
         }
