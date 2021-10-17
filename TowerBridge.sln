@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution", "solution", "{63
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
 		docker-compose.yml = docker-compose.yml
+		.github\workflows\docker_ci.yml = .github\workflows\docker_ci.yml
+		.github\workflows\docker_release.yml = .github\workflows\docker_release.yml
 		Dockerfile = Dockerfile
 		README.md = README.md
 	EndProjectSection
