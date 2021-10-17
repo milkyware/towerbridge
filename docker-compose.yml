@@ -1,0 +1,10 @@
+﻿version: '3.7'
+
+services:
+  api:
+    build:
+      context: .
+    environment:
+        - TZ=Europe/London
+    ports:
+      - 8080:80
