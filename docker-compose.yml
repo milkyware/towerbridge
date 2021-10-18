@@ -2,6 +2,7 @@
 
 services:
   api:
+    image: milkyjoe93/towerbridge:latest
     build:
       context: .
     environment:
