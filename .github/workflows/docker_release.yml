@@ -5,15 +5,15 @@ on:
     types:
       - published
 
+env:
+  IMAGE_NAME: "towerbridge"
+
 jobs:
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
   build:
     name: Build image and push
     runs-on: ubuntu-latest
-    
-    env:
-      IMAGE_NAME: "towerbridge"
     
     steps:
       - name: Checkout
