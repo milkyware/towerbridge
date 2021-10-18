@@ -15,7 +15,7 @@ FROM build AS publish
 COPY ./src/ ./src/
 RUN dotnet publish -c Release -o /app/publish
 
-FROM mcr.microsoft.com/dotnet/aspnet:3.1
+FROM mcr.microsoft.com/dotnet/aspnet:3.1-alpine
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "TowerBridge.API.dll"]
