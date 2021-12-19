@@ -9,11 +9,11 @@ namespace TowerBridge.API.Services
 {
     public class TowerBridgeService : ITowerBridgeService
     {
-        private string url = "https://www.towerbridge.org.uk/lift-times";
+        private const string TOWERBRIDGE_URL = "https://www.towerbridge.org.uk/lift-times";
 
         public async IAsyncEnumerable<BridgeLift> GetAllAsync()
         {
-            var doc = new HtmlWeb().Load("https://www.towerbridge.org.uk/lift-times");
+            var doc = new HtmlWeb().Load(TOWERBRIDGE_URL);
             var nodes = doc.DocumentNode
                 .SelectNodes("//table/tbody/tr");
 
