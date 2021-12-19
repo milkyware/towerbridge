@@ -50,7 +50,7 @@ jobs:
         uses: docker/build-push-action@v2.3.0
         with:
           context: .
-          platforms: linux/arm,linux/arm64,linux/amd64
+          platforms: linux/arm64,linux/amd64
           push: true
           tags: "${{secrets.DOCKER_REGISTRY}}/${{secrets.DOCKER_USERNAME}}/${{env.IMAGE_NAME}}:ci"
         
