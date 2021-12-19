@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31727.386
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TowerBridge.API", "src\TowerBridge.API\TowerBridge.API.csproj", "{682E048C-E7EF-43F3-8E51-9AE78FB4159B}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution", "solution", "{633EFC1F-A772-4779-8CBB-C1C250C9E805}"
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
 		docker-compose.yml = docker-compose.yml
 		.github\workflows\docker_ci.yml = .github\workflows\docker_ci.yml
 		.github\workflows\docker_release.yml = .github\workflows\docker_release.yml
