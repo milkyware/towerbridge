@@ -24,9 +24,11 @@ namespace TowerBridge.API.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<BridgeLift>), StatusCodes.Status200OK)]
         public IAsyncEnumerable<BridgeLift> GetAll()
         {
-            return _service.GetAllAsync();
+            var model = _service.GetAllAsync();
+            return model;
         }
 
         [HttpGet("Next")]
