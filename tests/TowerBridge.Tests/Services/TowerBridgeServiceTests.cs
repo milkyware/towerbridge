@@ -1,4 +1,7 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
+using NSubstitute;
+using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,26 +12,29 @@ namespace TowerBridge.API.Services.Tests
     [TestFixture()]
     public class TowerBridgeServiceTests
     {
-        private ITowerBridgeService service;
+        private ITowerBridgeService _service;
 
         [SetUp()]
         public void Setup()
         {
-            service = new TowerBridgeService();
+            var logger = Substitute.For<ILogger<TowerBridgeService>>();
+            var memoryCache = Substitute.For<IMemoryCache>();
+            memoryCache.TryGetValue(Arg.Any<string>(), out Arg.Any<object>())
+                .Returns(false);
+            _service = new TowerBridgeService(logger, memoryCache);
         }
 
         [Test()]
         public async Task GetAllTest()
         {
-            var lifts = await service.GetAllAsync()
-                .ToListAsync();
+            var lifts = await _service.GetAllAsync();
             Assert.Greater(lifts.Count(), 0);
         }
 
         [Test()]
         public async Task GetNextAsyncTest()
         {
-            var lift = await service.GetNextAsync();
+            var lift = await _service.GetNextAsync();
             Assert.NotNull(lift);
         }
     }
