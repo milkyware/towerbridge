@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TowerBridge.API.Models;
+using TowerBridge.API.Options;
+using Microsoft.Extensions.Options;
 
 namespace TowerBridge.API.Services
 {
@@ -15,11 +17,13 @@ namespace TowerBridge.API.Services
         private const string TOWERBRIDGE_URL = "https://www.towerbridge.org.uk/lift-times";
         private ILogger _logger;
         private IMemoryCache _memoryCache;
+        private TowerBridgeOptions _options;
 
-        public TowerBridgeService(ILogger<TowerBridgeService> logger, IMemoryCache memoryCache)
+        public TowerBridgeService(ILogger<TowerBridgeService> logger, IMemoryCache memoryCache, IOptions<TowerBridgeOptions> options)
         {
             _logger = logger;
             _memoryCache = memoryCache;
+            _options = options.Value;
         }
 
         public async Task<IEnumerable<BridgeLift>> GetAllAsync()
@@ -75,7 +79,7 @@ namespace TowerBridge.API.Services
                     lifts.Add(lift);
 
                     _logger.LogDebug("Caching bridge lifts");
-                    _memoryCache.Set(TOWERBRIDGE_CACHE, lifts, TimeSpan.FromDays(1));
+                    _memoryCache.Set(TOWERBRIDGE_CACHE, lifts, _options.CachingExpiration);
                 }
             }
             else

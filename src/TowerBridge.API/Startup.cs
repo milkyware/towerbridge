@@ -32,8 +32,7 @@ namespace TowerBridge.API
                 {
                     options.Filters.Add(new ProducesAttribute("application/json"));
                 });
-            services.AddMemoryCache();
-            services.AddTransient<ITowerBridgeService, TowerBridgeService>();
+            services.AddTowerBridgeService(Configuration.GetSection("TowerBridge").Bind);
             services.AddSwaggerGen();
             services.AddSwaggerGenNewtonsoftSupport();
         }
