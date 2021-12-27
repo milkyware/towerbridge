@@ -40,6 +40,7 @@ jobs:
           password: "${{secrets.DOCKER_PASSWORD}}"
       
       - name: Docker build and push
+        id: build-push
         uses: docker/build-push-action@v2.3.0
         with:
           context: .
@@ -50,6 +51,6 @@ jobs:
             "${{secrets.DOCKER_REGISTRY}}/${{secrets.DOCKER_USERNAME}}/${{env.IMAGE_NAME}}:${{github.event.release.tag_name}}"
           
       - name: Image digest
-        run: echo ${{steps.docker_build.outputs.digest}}
+        run: echo ${{steps.build-push.outputs.digest}}
 
       
