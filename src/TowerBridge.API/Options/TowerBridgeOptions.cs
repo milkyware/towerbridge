@@ -4,6 +4,6 @@ namespace TowerBridge.API.Options
 {
     public class TowerBridgeOptions
     {
-        public TimeSpan CachingExpiration { get; set; }
+        public TimeSpan CachingExpiration { get; set; } = TimeSpan.FromHours(1);
     }
 }
