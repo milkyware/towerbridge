@@ -1,5 +1,8 @@
 ﻿version: '3.7'
 
+volumes:
+  logs:
+
 services:
   api:
     image: milkyjoe93/towerbridge:latest
@@ -9,3 +12,5 @@ services:
         - TZ=Europe/London
     ports:
       - 8080:80
+    volumes:
+      - logs:/logs  
