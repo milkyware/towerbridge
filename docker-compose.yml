@@ -10,6 +10,7 @@ services:
       context: .
     environment:
         - TZ=Europe/London
+        - TOWERBRIDGE__CACHINGEXPIRATION=1:00:00
     ports:
       - 8080:80
     volumes:
