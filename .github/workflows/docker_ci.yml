@@ -63,7 +63,9 @@ jobs:
           context: .
           platforms: linux/arm64,linux/amd64
           push: true
-          tags: "${{env.DOCKERHUB_REGISTRY}}/${{secrets.DOCKERHUB_USERNAME}}/${{env.IMAGE_NAME}}:ci"
+          tags: |
+            "${{env.DOCKERHUB_REGISTRY}}/${{secrets.DOCKERHUB_USERNAME}}/${{env.IMAGE_NAME}}:ci"
+            "${{env.GITHUB_REGISTRY}}/${{github.repository_owner}}/${{env.IMAGE_NAME}}:ci"
         
       - name: Image digest
         run: echo ${{steps.build-push.outputs.digest}}
