@@ -71,7 +71,7 @@ jobs:
           push: true
           tags: |
             "${{env.DOCKERHUB_REGISTRY}}/${{secrets.DOCKERHUB_USERNAME}}/${{env.IMAGE_NAME}}:ci"
-            "${{env.GITHUB_REGISTRY}}/${{steps.repository_owner_lower.outputs.lowercase.}}/${{env.IMAGE_NAME}}:ci"
+            "${{env.GITHUB_REGISTRY}}/${{steps.repository_owner_lower.outputs.lowercase}}/${{env.IMAGE_NAME}}:ci"
         
       - name: Image digest
         run: echo ${{steps.build-push.outputs.digest}}
