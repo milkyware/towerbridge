@@ -52,5 +52,3 @@ jobs:
           
       - name: Image digest
         run: echo ${{steps.build-push.outputs.digest}}
-
-      
