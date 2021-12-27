@@ -67,7 +67,7 @@ jobs:
             "${{secrets.DOCKER_REGISTRY}}/${{secrets.DOCKER_USERNAME}}/${{env.IMAGE_NAME}}:latest"
             "${{secrets.DOCKER_REGISTRY}}/${{secrets.DOCKER_USERNAME}}/${{env.IMAGE_NAME}}:${{github.event.release.tag_name}}"
             "${{env.GITHUB_REGISTRY}}/${{steps.repository_owner_lower.outputs.lowercase}}/${{env.IMAGE_NAME}}:latest"
-            "${{env.GITHUB_REGISTRY}}/${{steps.repository_owner_lower.outputs.lowercase}}/${{env.IMAGE_NAME}}:${{github.event.release.tag_name}}""
+            "${{env.GITHUB_REGISTRY}}/${{steps.repository_owner_lower.outputs.lowercase}}/${{env.IMAGE_NAME}}:${{github.event.release.tag_name}}"
           
       - name: Image digest
         run: echo ${{steps.build-push.outputs.digest}}
