@@ -21,3 +21,4 @@ COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "TowerBridge.API.dll"]
 EXPOSE 80
 EXPOSE 443
+VOLUME /logs
