@@ -36,15 +36,6 @@ jobs:
         uses: ASzc/change-string-case-action@v2
         with:
           string: "${{github.repository_owner}}"
-          
-      - name: Repository Lower
-        id: repository_lower
-        uses: ASzc/change-string-case-action@v2
-        with:
-          string: "${{github.repository}}"
-      
-      - name: Echo Repository Lower
-        run: echo ${{steps.repository_lower.outputs.lowercase}}
       
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
