@@ -64,8 +64,8 @@ jobs:
           platforms: linux/arm64,linux/amd64
           push: true
           tags: |
-            "${{secrets.DOCKER_REGISTRY}}/${{secrets.DOCKERHUB_USERNAME}}/${{env.IMAGE_NAME}}:latest"
-            "${{secrets.DOCKER_REGISTRY}}/${{secrets.DOCKERHUB_USERNAME}}/${{env.IMAGE_NAME}}:${{github.event.release.tag_name}}"
+            "${{env.DOCKERHUB_REGISTRY}}/${{secrets.DOCKERHUB_USERNAME}}/${{env.IMAGE_NAME}}:latest"
+            "${{env.DOCKERHUB_REGISTRY}}/${{secrets.DOCKERHUB_USERNAME}}/${{env.IMAGE_NAME}}:${{github.event.release.tag_name}}"
             "${{env.GITHUB_REGISTRY}}/${{steps.repository_owner_lower.outputs.lowercase}}/${{env.IMAGE_NAME}}:latest"
             "${{env.GITHUB_REGISTRY}}/${{steps.repository_owner_lower.outputs.lowercase}}/${{env.IMAGE_NAME}}:${{github.event.release.tag_name}}"
           
