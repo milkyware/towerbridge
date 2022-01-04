@@ -28,7 +28,6 @@ namespace TowerBridge.API.Services
 
         public async Task<IEnumerable<BridgeLift>> GetAllAsync()
         {
-            _logger.LogInformation("Getting bridge lifts");
             var lifts = await GetLiftsAsync();
             _logger.LogInformation("Returning bridge lifts");
             return lifts;
@@ -77,10 +76,9 @@ namespace TowerBridge.API.Services
                     };
                     _logger.LogTrace("BridgeLift: {bridgeLift}", lift);
                     lifts.Add(lift);
-
-                    _logger.LogDebug("Caching bridge lifts");
-                    _memoryCache.Set(TOWERBRIDGE_CACHE, lifts, _options.CachingExpiration);
                 }
+                _logger.LogDebug("Caching bridge lifts");
+                _memoryCache.Set(TOWERBRIDGE_CACHE, lifts, _options.CachingExpiration);
             }
             else
             {
