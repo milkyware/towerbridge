@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TowerBridge.API.Models;
 using TowerBridge.API.Options;
 using Microsoft.Extensions.Options;
+using LazyCache;
 
 namespace TowerBridge.API.Services
 {
@@ -15,14 +16,14 @@ namespace TowerBridge.API.Services
     {
         private const string TOWERBRIDGE_CACHE = "TowerBridge";
         private const string TOWERBRIDGE_URL = "https://www.towerbridge.org.uk/lift-times";
+        private IAppCache _appCache;
         private ILogger _logger;
-        private IMemoryCache _memoryCache;
         private TowerBridgeOptions _options;
 
-        public TowerBridgeService(ILogger<TowerBridgeService> logger, IMemoryCache memoryCache, IOptions<TowerBridgeOptions> options)
+        public TowerBridgeService(ILogger<TowerBridgeService> logger, IAppCache appCache, IOptions<TowerBridgeOptions> options)
         {
+            _appCache = appCache;
             _logger = logger;
-            _memoryCache = memoryCache;
             _options = options.Value;
         }
 
@@ -45,9 +46,9 @@ namespace TowerBridge.API.Services
 
         private async Task<IEnumerable<BridgeLift>> GetLiftsAsync()
         {
-            List<BridgeLift> lifts;
-            if (!_memoryCache.TryGetValue(TOWERBRIDGE_CACHE, out lifts))
+            var result = await _appCache.GetOrAddAsync(TOWERBRIDGE_CACHE, async () =>
             {
+                List<BridgeLift> lifts;
                 _logger.LogDebug("Getting tower bridge timetable from site");
                 var doc = await new HtmlWeb().LoadFromWebAsync(TOWERBRIDGE_URL);
                 _logger.LogTrace($"Timetable HTML:{Environment.NewLine}{doc}", doc.DocumentNode.OuterHtml);
@@ -78,14 +79,10 @@ namespace TowerBridge.API.Services
                     lifts.Add(lift);
                 }
                 _logger.LogDebug("Caching bridge lifts");
-                _memoryCache.Set(TOWERBRIDGE_CACHE, lifts, _options.CachingExpiration);
-            }
-            else
-            {
-                _logger.LogDebug("Returning cached bridge lifts");
-            }
-            _logger.LogDebug("Returning all bridge lifts");
-            return lifts;
+                return lifts;
+            });
+
+            return result;
         }
     }
 }

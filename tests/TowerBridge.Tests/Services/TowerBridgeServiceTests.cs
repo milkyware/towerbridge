@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using LazyCache;
+using LazyCache.Mocks;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NSubstitute;
@@ -20,12 +22,10 @@ namespace TowerBridge.API.Services.Tests
         public void Setup()
         {
             var logger = Substitute.For<ILogger<TowerBridgeService>>();
-            var memoryCache = Substitute.For<IMemoryCache>();
-            memoryCache.TryGetValue(Arg.Any<string>(), out Arg.Any<object>())
-                .Returns(false);
+            var appCache = new MockCachingService();
             var options = Substitute.For<IOptions<TowerBridgeOptions>>();
             options.Value.Returns(new TowerBridgeOptions());
-            _service = new TowerBridgeService(logger, memoryCache, options);
+            _service = new TowerBridgeService(logger, appCache, options);
         }
 
         [Test()]

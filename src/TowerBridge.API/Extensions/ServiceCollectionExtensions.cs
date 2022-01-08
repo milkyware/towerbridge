@@ -12,7 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection
             if (configureOptions != null)
                 services.AddOptions<TowerBridgeOptions>().Configure(configureOptions);
 
-            services.AddMemoryCache();
+            services.AddLazyCache();
             services.AddTransient<ITowerBridgeService, TowerBridgeService>();
 
             return services;
