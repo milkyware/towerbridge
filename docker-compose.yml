@@ -5,12 +5,12 @@ volumes:
 
 services:
   api:
-    image: milkyjoe93/towerbridge:latest
+    image: milkyware/towerbridge:latest
     build:
       context: .
     environment:
-        - TZ=Europe/London
-        - TOWERBRIDGE__CACHINGEXPIRATION=1:00:00
+      - TZ=Europe/London
+      - TOWERBRIDGE__CACHINGEXPIRATION=1:00:00
     ports:
       - 8080:80
     volumes:
