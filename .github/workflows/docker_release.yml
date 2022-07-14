@@ -39,6 +39,18 @@ jobs:
         uses: docker/setup-buildx-action@v1.0.2
         with: 
           version: latest
+          
+      - name: Docker Meta
+        id: docker-meta
+        uses: docker/metadata-action@v4.0.1
+        with:
+          images: |
+            ${{env.DOCKERHUB_REGISTRY}}/${{secrets.DOCKER_USERNAME}}/${{env.IMAGE_NAME}}
+            ${{env.GITHUB_REGISTRY}}/${{secrets.DOCKER_USERNAME}}/${{env.IMAGE_NAME}}
+          flavor: |
+            latest=true
+          tags: |
+            type=sha
       
       - name: Docker Hub login
         id: dockerhub-login
@@ -57,17 +69,14 @@ jobs:
           password: "${{github.token}}"
       
       - name: Docker build and push
-        id: build-push
+        id: docker-build-push
         uses: docker/build-push-action@v2.3.0
         with:
           context: .
           platforms: linux/arm64,linux/amd64
           push: true
-          tags: |
-            "${{env.DOCKERHUB_REGISTRY}}/${{secrets.DOCKERHUB_USERNAME}}/${{env.IMAGE_NAME}}:latest"
-            "${{env.DOCKERHUB_REGISTRY}}/${{secrets.DOCKERHUB_USERNAME}}/${{env.IMAGE_NAME}}:${{github.event.release.tag_name}}"
-            "${{env.GITHUB_REGISTRY}}/${{steps.repository_owner_lower.outputs.lowercase}}/${{env.IMAGE_NAME}}:latest"
-            "${{env.GITHUB_REGISTRY}}/${{steps.repository_owner_lower.outputs.lowercase}}/${{env.IMAGE_NAME}}:${{github.event.release.tag_name}}"
+          labels: ${{steps.docker-meta.outputs.labels}}
+          tags: ${{steps.docker-meta.outputs.tags}}
           
       - name: Image digest
-        run: echo ${{steps.build-push.outputs.digest}}
+        run: echo ${{steps.docker-build-push.outputs.digest}}
