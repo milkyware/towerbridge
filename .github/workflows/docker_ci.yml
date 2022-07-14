@@ -46,6 +46,14 @@ jobs:
         with: 
           version: latest
 
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
       - name: Docker Metadata
         id: docker-metadata
         uses: docker/metadata-action@v4.0.1
@@ -86,6 +94,8 @@ jobs:
           push: true
           labels: ${{steps.docker-metadata.outputs.labels}}
           tags: ${{steps.docker-metadata.outputs.tags}}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
         
       - name: Image digest
         run: echo ${{steps.build-push.outputs.digest}}
