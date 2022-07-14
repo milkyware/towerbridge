@@ -2,6 +2,16 @@
 
 A small Web API to test out [HtmlAgilityPack](https://html-agility-pack.net/). The idea of creating the API was suggested by a tutor I once had in that the tower bridge can affect commutes but they offer no API to retrieve the data. They do however post of table of bridge lifts which the API screen scrapes
 
+## Contents
+
+- [TowerBridge API](#towerbridge-api)
+  - [Contents](#contents)
+  - [Description](#description)
+  - [Docker](#docker)
+  - [Configuration](#configuration)
+  - [Logging](#logging)
+  - [References](#references)
+
 ## Description
 
 The API loads the HTML table from Tower Bridge [lift times](https://www.towerbridge.org.uk/lift-times) and then builds an array of bridge lift times. Microsoft's in-memory caching has also been used to improve performance.
