@@ -50,7 +50,7 @@ jobs:
         id: docker-metadata
         uses: docker/metadata-action@v4.0.1
         with:
-          flavour: |
+          flavor: |
             latest=auto
           images: |
             ${{env.DOCKERHUB_REGISTRY}}/${{secrets.DOCKER_USERNAME}}/${{env.IMAGE_NAME}}
