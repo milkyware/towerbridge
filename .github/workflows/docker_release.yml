@@ -35,7 +35,7 @@ jobs:
         uses: docker/setup-qemu-action@v1
       
       - name: Install Buildx
-        id: buildx
+        id: docker-buildx
         uses: docker/setup-buildx-action@v1.0.2
         with: 
           version: latest
