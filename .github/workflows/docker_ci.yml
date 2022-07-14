@@ -46,8 +46,8 @@ jobs:
         with: 
           version: latest
 
-      - name: Docker Meta
-        id: docker-meta
+      - name: Docker Metadata
+        id: docker-metadata
         uses: docker/metadata-action@v4.0.1
         with:
           flavour: |
@@ -83,8 +83,8 @@ jobs:
           context: .
           platforms: linux/arm64,linux/amd64
           push: true
-          labels: ${{steps.docker-meta.outputs.labels}}
-          tags: ${{steps.docker-meta.outputs.tags}}
+          labels: ${{steps.docker-metadata.outputs.labels}}
+          tags: ${{steps.docker-metadata.outputs.tags}}
         
       - name: Image digest
         run: echo ${{steps.build-push.outputs.digest}}
