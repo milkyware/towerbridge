@@ -8,12 +8,12 @@ on:
     paths: 
       - "src/**"
       - "tests/**"
+
+  release:
+    types:
+      - published
   
   workflow_dispatch:
-  
-  pull_request:
-    branches: 
-      - master
 
 env:
   IMAGE_NAME: "towerbridge"
@@ -50,12 +50,13 @@ jobs:
         id: docker-meta
         uses: docker/metadata-action@v4.0.1
         with:
+          flavour: |
+            latest=auto
           images: |
             ${{env.DOCKERHUB_REGISTRY}}/${{secrets.DOCKER_USERNAME}}/${{env.IMAGE_NAME}}
             ${{env.GITHUB_REGISTRY}}/${{secrets.DOCKER_USERNAME}}/${{env.IMAGE_NAME}}
-          flavor: |
-            latest=false
           tags: |
+            type=ref,event=tag
             type=sha
             type=raw,value=ci
       
