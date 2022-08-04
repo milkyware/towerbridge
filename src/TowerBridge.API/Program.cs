@@ -20,12 +20,12 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.MapGet("/bridgelifts", async (ITowerBridgeService service) =>
+app.MapGet("/api/bridgelifts", async (ITowerBridgeService service) =>
 {
     return await service.GetAllAsync();
 }).WithTags("BridgeLifts");
 
-app.MapGet("/bridgelifts/next", async (ITowerBridgeService service) =>
+app.MapGet("/api/bridgelifts/next", async (ITowerBridgeService service) =>
 {
     return await service.GetNextAsync();
 }).WithTags("BridgeLifts");
