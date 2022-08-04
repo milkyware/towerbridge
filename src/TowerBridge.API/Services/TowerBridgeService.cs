@@ -16,6 +16,7 @@ namespace TowerBridge.API.Services
     {
         private const string TOWERBRIDGE_CACHE = "TowerBridge";
         private const string TOWERBRIDGE_URL = "https://www.towerbridge.org.uk/lift-times";
+        private const string TOWERBRIDGE_TABLE_PATH = "//div[@class='view-content']/table/tbody/tr";
         private IAppCache _appCache;
         private ILogger _logger;
         private TowerBridgeOptions _options;
@@ -55,7 +56,7 @@ namespace TowerBridge.API.Services
 
 
                 var nodes = doc.DocumentNode
-                    .SelectNodes("//table/tbody/tr");
+                    .SelectNodes(TOWERBRIDGE_TABLE_PATH);
                 _logger.LogDebug($"Timetable count: {{timetableCount}}", nodes.Count);
 
                 lifts = new List<BridgeLift>();

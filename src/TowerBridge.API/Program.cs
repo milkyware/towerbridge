@@ -8,23 +8,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TowerBridge.API.Services;
 
-namespace TowerBridge.API
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddTowerBridgeService(builder.Configuration.GetSection("TowerBridge").Bind);
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGenNewtonsoftSupport();
+
+var app = builder.Build();
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.MapGet("/bridgelifts", async (ITowerBridgeService service) =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+    return await service.GetAllAsync();
+}).WithTags("BridgeLifts");
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .UseSerilog((hostingContext, services, loggerConfiguration) => loggerConfiguration
-                    .ReadFrom.Configuration(hostingContext.Configuration))
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
-}
+app.MapGet("/bridgelifts/next", async (ITowerBridgeService service) =>
+{
+    return await service.GetNextAsync();
+}).WithTags("BridgeLifts");
+
+app.Run();
