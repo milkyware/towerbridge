@@ -86,6 +86,15 @@ jobs:
           push: true
           labels: ${{steps.docker-metadata.outputs.labels}}
           tags: ${{steps.docker-metadata.outputs.tags}}
+          
+      - name: Docker Hub Description
+        id: docker-description
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          username: ${{secrets.DOCKERHUB_USERNAME}}
+          password: ${{secrets.DOCKERHUB_PASSWORD}}
+          repository: ${{secrets.DOCKER_USERNAME}}/${{env.IMAGE_NAME}}
+          readme-filepath: ./README.md
         
       - name: Image digest
         run: echo ${{steps.build-push.outputs.digest}}
