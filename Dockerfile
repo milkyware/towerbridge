@@ -15,6 +15,10 @@ FROM build AS publish
 COPY ./src/ ./src/
 RUN dotnet publish -c Release -o /app/publish
 
+FROM build AS vulnscan
+COPY --from=aquasec/trivy:latest /usr/local/bin/trivy /usr/local/bin/trivy
+RUN trivy filesystem --exit-code 1 --no-progress
+
 FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine
 WORKDIR /app
 COPY --from=publish /app/publish .
