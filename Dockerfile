@@ -25,4 +25,7 @@ COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "TowerBridge.API.dll"]
 EXPOSE 80
 EXPOSE 443
+LABEL org.opencontainers.image.source="https://github.com/milkyware/towerbridge"
+LABEL org.opencontainers.image.title="TowerBridge API"
+LABEL org.opencontainers.image.documentation="https://github.com/milkyware/towerbridge/blob/main/README.md"
 VOLUME /logs
