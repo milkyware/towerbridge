@@ -19,6 +19,7 @@ env:
   IMAGE_NAME: "towerbridge"
   DOCKERHUB_REGISTRY: "docker.io"
   GITHUB_REGISTRY: "ghcr.io"
+  QUAY_REGISTRY: "quay.io"
 
 jobs:
   # Push image to GitHub Packages.
@@ -53,8 +54,9 @@ jobs:
           flavor: |
             latest=auto
           images: |
-            ${{env.DOCKERHUB_REGISTRY}}/${{secrets.DOCKER_USERNAME}}/${{env.IMAGE_NAME}}
-            ${{env.GITHUB_REGISTRY}}/${{secrets.DOCKER_USERNAME}}/${{env.IMAGE_NAME}}
+            ${{env.DOCKERHUB_REGISTRY}}/${{github.repository_owner}}/${{env.IMAGE_NAME}}
+            ${{env.GITHUB_REGISTRY}}/${{github.repository_owner}}/${{env.IMAGE_NAME}}
+            ${{env.QUAY_REGISTRY}}/${{github.repository_owner}}/${{env.IMAGE_NAME}}
           tags: |
             type=ref,event=tag
             type=sha
@@ -75,6 +77,14 @@ jobs:
           registry: "${{env.GITHUB_REGISTRY}}"
           username: "${{github.repository_owner}}"
           password: "${{github.token}}"
+          
+      - name: Quay login
+        id: quay-login
+        uses: docker/login-action@v1.4.1
+        with: 
+          registry: "${{env.QUAY_REGISTRY}}"
+          username: "${{secrats.QUAY_USERNAME}}"
+          password: "${{secrets.QUAY_PASSWORD}}"
       
       - name: Docker build and push
         id: docker-build-push
