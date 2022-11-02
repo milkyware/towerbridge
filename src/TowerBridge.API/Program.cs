@@ -29,5 +29,9 @@ app.MapGet("/api/bridgelifts/next", async (ITowerBridgeService service) =>
 {
     return await service.GetNextAsync();
 }).WithTags("BridgeLifts");
+app.MapGet("/api/bridgelifts/today", async (ITowerBridgeService service) =>
+{
+    return await service.GetTodayAsync();
+}).WithTags("BridgeLifts");
 
 app.Run();

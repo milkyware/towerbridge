@@ -10,6 +10,8 @@ namespace TowerBridge.API.Services
     {
         public Task<BridgeLift> GetNextAsync();
 
+        public Task<IEnumerable<BridgeLift>> GetTodayAsync();
+
         public Task<IEnumerable<BridgeLift>> GetAllAsync();
     }
 }
