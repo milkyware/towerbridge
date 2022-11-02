@@ -45,6 +45,16 @@ namespace TowerBridge.API.Services
             return nextLift;
         }
 
+        public async Task<IEnumerable<BridgeLift>> GetTodayAsync()
+        {
+            var lifts = await GetLiftsAsync();
+            var today = lifts.Where(l => l.Date > DateTime.Today && l.Date < DateTime.Today.AddDays(1))
+                .OrderBy(l => l.Date);
+            _logger.LogInformation("Returning todays bridge lifts");
+            return today;
+
+        }
+
         private async Task<IEnumerable<BridgeLift>> GetLiftsAsync()
         {
             var result = await _appCache.GetOrAddAsync(TOWERBRIDGE_CACHE, async () =>
