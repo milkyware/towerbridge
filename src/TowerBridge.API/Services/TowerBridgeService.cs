@@ -16,6 +16,7 @@ namespace TowerBridge.API.Services
     {
         private const string TOWERBRIDGE_CACHE = "TowerBridge";
         private const string TOWERBRIDGE_URL = "https://www.towerbridge.org.uk/lift-times";
+        private const string TOWERBRIDGE_NO_LIFTS_PATH = "//div[@class='view-empty']";
         private const string TOWERBRIDGE_TABLE_PATH = "//div[@class='view-content']/table/tbody/tr";
         private IAppCache _appCache;
         private ILogger _logger;
@@ -62,14 +63,22 @@ namespace TowerBridge.API.Services
                 List<BridgeLift> lifts;
                 _logger.LogDebug("Getting tower bridge timetable from site");
                 var doc = await new HtmlWeb().LoadFromWebAsync(TOWERBRIDGE_URL);
-                _logger.LogTrace($"Timetable HTML:{Environment.NewLine}{doc}", doc.DocumentNode.OuterHtml);
+                _logger.LogTrace($"Timetable HTML:{Environment.NewLine}{doc}");
+
+                lifts = new List<BridgeLift>();
+
+                _logger.LogTrace($"Checking if any bridge lifts scheduled");
+                if (doc.DocumentNode.SelectNodes(TOWERBRIDGE_NO_LIFTS_PATH).Any())
+                {
+                    _logger.LogWarning($"No bridge lifts scheduled");
+                    return lifts;
+                }
 
 
                 var nodes = doc.DocumentNode
                     .SelectNodes(TOWERBRIDGE_TABLE_PATH);
                 _logger.LogDebug($"Timetable count: {{timetableCount}}", nodes.Count);
 
-                lifts = new List<BridgeLift>();
                 foreach (var n in nodes)
                 {
                     var date = n.SelectSingleNode("./td[@class='views-field views-field-field-date-time-1']/time")
