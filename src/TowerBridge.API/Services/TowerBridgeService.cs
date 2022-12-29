@@ -61,9 +61,9 @@ namespace TowerBridge.API.Services
             var result = await _appCache.GetOrAddAsync(TOWERBRIDGE_CACHE, async () =>
             {
                 List<BridgeLift> lifts;
-                _logger.LogDebug("Getting tower bridge timetable from site");
+                _logger.LogTrace("Getting tower bridge timetable from site");
                 var doc = await new HtmlWeb().LoadFromWebAsync(TOWERBRIDGE_URL);
-                _logger.LogTrace($"Timetable HTML:{Environment.NewLine}{doc}");
+                _logger.LogDebug($"Timetable HTML:{Environment.NewLine}{doc.Text}");
 
                 lifts = new List<BridgeLift>();
 
@@ -75,9 +75,10 @@ namespace TowerBridge.API.Services
                 }
 
 
+                _logger.LogTrace($"Querying timetable nodes");
                 var nodes = doc.DocumentNode
                     .SelectNodes(TOWERBRIDGE_TABLE_PATH);
-                _logger.LogDebug($"Timetable count: {{timetableCount}}", nodes.Count);
+                _logger.LogDebug($"Timetable count: {nodes.Count}", nodes.Count);
 
                 foreach (var n in nodes)
                 {
@@ -95,10 +96,10 @@ namespace TowerBridge.API.Services
                         Direction = direction,
                         Vessel = vessel
                     };
-                    _logger.LogTrace("BridgeLift: {bridgeLift}", lift);
+                    _logger.LogDebug($"BridgeLift: {lift}");
                     lifts.Add(lift);
                 }
-                _logger.LogDebug("Caching bridge lifts");
+                _logger.LogInformation("Caching bridge lifts");
                 return lifts;
             });
 
