@@ -101,7 +101,7 @@ namespace TowerBridge.API.Services
                 }
                 _logger.LogInformation("Caching bridge lifts");
                 return lifts;
-            });
+            }, _options.CachingExpiration);
 
             return result;
         }
