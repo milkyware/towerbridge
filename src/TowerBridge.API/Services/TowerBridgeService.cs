@@ -73,7 +73,7 @@ namespace TowerBridge.API.Services
             _logger.LogTrace($"Querying timetable nodes");
             var nodes = htmlDoc.DocumentNode
                 .SelectNodes(TOWERBRIDGE_TABLE_PATH);
-            _logger.LogDebug($"Timetable count: {nodes.Count}", nodes.Count);
+            _logger.LogDebug($"Timetable count: {nodes.Count}");
 
             foreach (var n in nodes)
             {
