@@ -33,7 +33,7 @@ namespace TowerBridge.API.Services
         public async Task<IEnumerable<BridgeLift>> GetAllAsync()
         {
             var lifts = await GetLiftsAsync();
-            _logger.LogInformation("Returning bridge lifts");
+            _logger.LogInformation("Returning all bridge lifts");
             return lifts;
         }
 
