@@ -68,7 +68,7 @@ namespace TowerBridge.API.Services
                 lifts = new List<BridgeLift>();
 
                 _logger.LogTrace($"Checking if any bridge lifts scheduled");
-                if (doc.DocumentNode.SelectNodes(TOWERBRIDGE_NO_LIFTS_PATH).Any())
+                if (doc.DocumentNode.SelectNodes(TOWERBRIDGE_NO_LIFTS_PATH) != null)
                 {
                     _logger.LogWarning($"No bridge lifts scheduled");
                     return lifts;
