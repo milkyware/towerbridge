@@ -9,6 +9,7 @@ using TowerBridge.API.Models;
 using TowerBridge.API.Options;
 using Microsoft.Extensions.Options;
 using LazyCache;
+using TowerBridge.API.Clients;
 
 namespace TowerBridge.API.Services
 {
@@ -18,15 +19,15 @@ namespace TowerBridge.API.Services
         private const string TOWERBRIDGE_URL = "https://www.towerbridge.org.uk/lift-times";
         private const string TOWERBRIDGE_NO_LIFTS_PATH = "//div[@class='view-empty']";
         private const string TOWERBRIDGE_TABLE_PATH = "//div[@class='view-content']/table/tbody/tr";
-        private IAppCache _appCache;
+        private ITowerBridgeClient _towerBridgeClient;
         private ILogger _logger;
         private TowerBridgeOptions _options;
 
-        public TowerBridgeService(ILogger<TowerBridgeService> logger, IAppCache appCache, IOptions<TowerBridgeOptions> options)
+        public TowerBridgeService(ILogger<TowerBridgeService> logger, ITowerBridgeClient towerBridgeClient, IOptions<TowerBridgeOptions> options)
         {
-            _appCache = appCache;
             _logger = logger;
             _options = options.Value;
+            _towerBridgeClient = towerBridgeClient;
         }
 
         public async Task<IEnumerable<BridgeLift>> GetAllAsync()
@@ -58,52 +59,43 @@ namespace TowerBridge.API.Services
 
         private async Task<IEnumerable<BridgeLift>> GetLiftsAsync()
         {
-            var result = await _appCache.GetOrAddAsync(TOWERBRIDGE_CACHE, async () =>
+            var htmlDoc = await _towerBridgeClient.GetBridgeLiftsPage();
+
+            var lifts = new List<BridgeLift>();
+
+            _logger.LogTrace($"Checking if any bridge lifts scheduled");
+            if (htmlDoc.DocumentNode.SelectNodes(TOWERBRIDGE_NO_LIFTS_PATH) != null)
             {
-                List<BridgeLift> lifts;
-                _logger.LogTrace("Getting tower bridge timetable from site");
-                var doc = await new HtmlWeb().LoadFromWebAsync(TOWERBRIDGE_URL);
-                _logger.LogDebug($"Timetable HTML:{Environment.NewLine}{doc.Text}");
-
-                lifts = new List<BridgeLift>();
-
-                _logger.LogTrace($"Checking if any bridge lifts scheduled");
-                if (doc.DocumentNode.SelectNodes(TOWERBRIDGE_NO_LIFTS_PATH) != null)
-                {
-                    _logger.LogWarning($"No bridge lifts scheduled");
-                    return lifts;
-                }
-
-
-                _logger.LogTrace($"Querying timetable nodes");
-                var nodes = doc.DocumentNode
-                    .SelectNodes(TOWERBRIDGE_TABLE_PATH);
-                _logger.LogDebug($"Timetable count: {nodes.Count}", nodes.Count);
-
-                foreach (var n in nodes)
-                {
-                    var date = n.SelectSingleNode("./td[@class='views-field views-field-field-date-time-1']/time")
-                        .Attributes["datetime"]
-                        .Value;
-                    var direction = n.SelectSingleNode("./td[@headers='view-field-direction-table-column']")
-                        .InnerText.Trim();
-                    var vessel = n.SelectSingleNode("./td[@headers='view-field-vessel-table-column']")
-                        .InnerText.Trim();
-
-                    var lift = new BridgeLift()
-                    {
-                        Date = DateTime.Parse(date),
-                        Direction = direction,
-                        Vessel = vessel
-                    };
-                    _logger.LogDebug($"BridgeLift: {lift}");
-                    lifts.Add(lift);
-                }
-                _logger.LogInformation("Caching bridge lifts");
+                _logger.LogWarning($"No bridge lifts scheduled");
                 return lifts;
-            }, _options.CachingExpiration);
+            }
 
-            return result;
+            _logger.LogTrace($"Querying timetable nodes");
+            var nodes = htmlDoc.DocumentNode
+                .SelectNodes(TOWERBRIDGE_TABLE_PATH);
+            _logger.LogDebug($"Timetable count: {nodes.Count}", nodes.Count);
+
+            foreach (var n in nodes)
+            {
+                var date = n.SelectSingleNode("./td[@class='views-field views-field-field-date-time-1']/time")
+                    .Attributes["datetime"]
+                    .Value;
+                var direction = n.SelectSingleNode("./td[@headers='view-field-direction-table-column']")
+                    .InnerText.Trim();
+                var vessel = n.SelectSingleNode("./td[@headers='view-field-vessel-table-column']")
+                    .InnerText.Trim();
+
+                var lift = new BridgeLift()
+                {
+                    Date = DateTime.Parse(date),
+                    Direction = direction,
+                    Vessel = vessel
+                };
+                _logger.LogDebug($"BridgeLift: {lift}");
+                lifts.Add(lift);
+            }
+            _logger.LogInformation("Caching bridge lifts");
+            return lifts;
         }
     }
 }

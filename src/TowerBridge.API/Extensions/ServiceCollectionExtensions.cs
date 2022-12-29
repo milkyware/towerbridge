@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using HtmlAgilityPack;
+using Microsoft.Extensions.DependencyInjection;
 using System;
+using TowerBridge.API.Clients;
 using TowerBridge.API.Options;
 using TowerBridge.API.Services;
 
@@ -12,7 +14,9 @@ namespace Microsoft.Extensions.DependencyInjection
             if (configureOptions != null)
                 services.AddOptions<TowerBridgeOptions>().Configure(configureOptions);
 
+            services.AddSingleton<HtmlWeb>();
             services.AddLazyCache();
+            services.AddTransient<ITowerBridgeClient, TowerBridgeClient>();
             services.AddTransient<ITowerBridgeService, TowerBridgeService>();
 
             return services;
