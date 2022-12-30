@@ -51,7 +51,7 @@ namespace TowerBridge.API.Services
         {
             var lifts = await GetLiftsAsync();
             var today = _dateTimeService.GetToday();
-            var todayLifts = lifts.Where(l => l.Date > DateTime.Today && l.Date < DateTime.Today.AddDays(1))
+            var todayLifts = lifts.Where(l => l.Date > today && l.Date < today.AddDays(1))
                 .OrderBy(l => l.Date);
             _logger.LogInformation("Returning todays bridge lifts");
             return todayLifts;
