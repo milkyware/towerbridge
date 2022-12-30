@@ -16,6 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddSingleton<HtmlWeb>();
             services.AddLazyCache();
+            services.AddTransient<IDateTimeService, DateTimeService>();
             services.AddTransient<ITowerBridgeClient, TowerBridgeClient>();
             services.AddTransient<ITowerBridgeService, TowerBridgeService>();
 

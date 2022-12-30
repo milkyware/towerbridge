@@ -17,11 +17,14 @@ namespace TowerBridge.API.Services
     {
         private const string TOWERBRIDGE_NO_LIFTS_PATH = "//div[@class='view-empty']";
         private const string TOWERBRIDGE_TABLE_PATH = "//div[@class='view-content']/table/tbody/tr";
+
+        private IDateTimeService _dateTimeService;
         private ILogger _logger;
         private ITowerBridgeClient _towerBridgeClient;
 
-        public TowerBridgeService(ILogger<TowerBridgeService> logger, ITowerBridgeClient towerBridgeClient)
+        public TowerBridgeService(IDateTimeService dateTimeService, ILogger<TowerBridgeService> logger, ITowerBridgeClient towerBridgeClient)
         {
+            _dateTimeService = dateTimeService;
             _logger = logger;
             _towerBridgeClient = towerBridgeClient;
         }
@@ -36,7 +39,8 @@ namespace TowerBridge.API.Services
         public async Task<BridgeLift> GetNextAsync()
         {
             var lifts = await GetLiftsAsync();
-            var nextLift = lifts.Where(l => l.Date > DateTime.Now)
+            var now = _dateTimeService.GetNow();
+            var nextLift = lifts.Where(l => l.Date > now)
                 .OrderBy(l => l.Date)
                 .FirstOrDefault();
             _logger.LogInformation("Returning next bridge lift");
@@ -46,10 +50,11 @@ namespace TowerBridge.API.Services
         public async Task<IEnumerable<BridgeLift>> GetTodayAsync()
         {
             var lifts = await GetLiftsAsync();
-            var today = lifts.Where(l => l.Date > DateTime.Today && l.Date < DateTime.Today.AddDays(1))
+            var today = _dateTimeService.GetToday();
+            var todayLifts = lifts.Where(l => l.Date > DateTime.Today && l.Date < DateTime.Today.AddDays(1))
                 .OrderBy(l => l.Date);
             _logger.LogInformation("Returning todays bridge lifts");
-            return today;
+            return todayLifts;
 
         }
 
