@@ -15,18 +15,14 @@ namespace TowerBridge.API.Services
 {
     public class TowerBridgeService : ITowerBridgeService
     {
-        private const string TOWERBRIDGE_CACHE = "TowerBridge";
-        private const string TOWERBRIDGE_URL = "https://www.towerbridge.org.uk/lift-times";
         private const string TOWERBRIDGE_NO_LIFTS_PATH = "//div[@class='view-empty']";
         private const string TOWERBRIDGE_TABLE_PATH = "//div[@class='view-content']/table/tbody/tr";
         private ITowerBridgeClient _towerBridgeClient;
         private ILogger _logger;
-        private TowerBridgeOptions _options;
 
-        public TowerBridgeService(ILogger<TowerBridgeService> logger, ITowerBridgeClient towerBridgeClient, IOptions<TowerBridgeOptions> options)
+        public TowerBridgeService(ILogger<TowerBridgeService> logger, ITowerBridgeClient towerBridgeClient)
         {
             _logger = logger;
-            _options = options.Value;
             _towerBridgeClient = towerBridgeClient;
         }
 
