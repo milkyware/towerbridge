@@ -30,6 +30,8 @@ namespace TowerBridge.API.Clients
                 var htmlDoc = await new HtmlWeb().LoadFromWebAsync(TOWERBRIDGE_URL);
                 _logger.LogDebug($"htmlDoc={Environment.NewLine}{htmlDoc.Text}");
 
+
+                _logger.LogInformation("Caching bridge lifts");
                 return htmlDoc;
             }, _options.Value.CachingExpiration);
 
