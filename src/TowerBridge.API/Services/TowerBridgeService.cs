@@ -17,8 +17,8 @@ namespace TowerBridge.API.Services
     {
         private const string TOWERBRIDGE_NO_LIFTS_PATH = "//div[@class='view-empty']";
         private const string TOWERBRIDGE_TABLE_PATH = "//div[@class='view-content']/table/tbody/tr";
-        private ITowerBridgeClient _towerBridgeClient;
         private ILogger _logger;
+        private ITowerBridgeClient _towerBridgeClient;
 
         public TowerBridgeService(ILogger<TowerBridgeService> logger, ITowerBridgeClient towerBridgeClient)
         {
@@ -90,7 +90,6 @@ namespace TowerBridge.API.Services
                 _logger.LogDebug($"BridgeLift: {lift}");
                 lifts.Add(lift);
             }
-            _logger.LogInformation("Caching bridge lifts");
             return lifts;
         }
     }
