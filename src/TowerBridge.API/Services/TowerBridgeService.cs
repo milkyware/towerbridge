@@ -60,6 +60,7 @@ namespace TowerBridge.API.Services
 
         private async Task<IEnumerable<BridgeLift>> GetLiftsAsync()
         {
+            _logger.LogTrace("Getting Tower Bridge lifts page");
             var htmlDoc = await _towerBridgeClient.GetBridgeLiftsPage();
 
             var lifts = new List<BridgeLift>();
@@ -95,6 +96,7 @@ namespace TowerBridge.API.Services
                 _logger.LogDebug($"BridgeLift: {lift}");
                 lifts.Add(lift);
             }
+            _logger.LogInformation($"Returning {nameof(GetLiftsAsync)}");
             return lifts;
         }
     }
