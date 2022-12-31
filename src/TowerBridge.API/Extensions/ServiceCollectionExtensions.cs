@@ -14,7 +14,6 @@ namespace Microsoft.Extensions.DependencyInjection
             if (configureOptions != null)
                 services.AddOptions<TowerBridgeOptions>().Configure(configureOptions);
 
-            services.AddSingleton<HtmlWeb>();
             services.AddLazyCache();
             services.AddTransient<IDateTimeService, DateTimeService>();
             services.AddTransient<ITowerBridgeClient, TowerBridgeClient>();
