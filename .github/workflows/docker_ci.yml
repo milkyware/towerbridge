@@ -60,7 +60,9 @@ jobs:
           tags: |
             type=ref,event=tag
             type=sha
-            type=raw,value=ci
+            type=semver,pattern={{major}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{version}}
       
       - name: Docker Hub login
         id: dockerhub-login
