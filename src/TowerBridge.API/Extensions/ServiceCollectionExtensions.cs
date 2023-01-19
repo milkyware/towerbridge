@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using HtmlAgilityPack;
+using Microsoft.Extensions.DependencyInjection;
 using System;
+using TowerBridge.API.Clients;
 using TowerBridge.API.Options;
 using TowerBridge.API.Services;
 
@@ -13,6 +15,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 services.AddOptions<TowerBridgeOptions>().Configure(configureOptions);
 
             services.AddLazyCache();
+            services.AddTransient<IDateTimeService, DateTimeService>();
+            services.AddTransient<ITowerBridgeClient, TowerBridgeClient>();
             services.AddTransient<ITowerBridgeService, TowerBridgeService>();
 
             return services;
