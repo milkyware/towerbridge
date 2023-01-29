@@ -19,7 +19,7 @@ The API loads the HTML table from Tower Bridge [lift times](https://www.towerbri
 ## Docker
 
 ``` Bash
-docker run -d -e TOWERBRIDGE__CACHINGEXPIRATION=01:00:00 -p 8080:80 milkyjoe93:towerbridge/api
+docker run -d -e TOWERBRIDGE__CACHINGEXPIRATION=01:00:00 -p 8080:80 milkyware/towerbridge:latest
 ```
 
 ## Configuration
