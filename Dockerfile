@@ -7,7 +7,7 @@ LABEL org.opencontainers.image.title="TowerBridge API"
 LABEL org.opencontainers.image.documentation="https://github.com/milkyware/towerbridge/blob/main/README.md"
 VOLUME /logs
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0-bullseye-slim-amd64 AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0-bullseye-slim AS build
 WORKDIR /sln
 COPY *.sln .
 COPY ./src/TowerBridge.API/*.csproj /sln/src/TowerBridge.API/
