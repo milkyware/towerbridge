@@ -29,7 +29,7 @@ namespace TowerBridge.API.Services.Tests
 
         [Test()]
         [TestCase(nameof(Resources.BridgeLiftsScheduled),
-            5)]
+            6)]
         [TestCase(nameof(Resources.BridgeLiftsNonScheduled),
             0)]
         public async Task GetAllTest(string sampleResource, int expectedLifts)
