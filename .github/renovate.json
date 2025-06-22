@@ -1,0 +1,19 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":automergeMinor",
+    "security:openssf-scorecard"
+  ],
+  "labels": [
+    "dependencies",
+    "{{manager}}",
+    "{{updateType}}"
+  ],
+  "automergeStrategy": "squash",
+  "minimumReleaseAge": "7",
+  "separateMajorMinor": true,
+  "vulnerabilityAlerts": {
+    "labels": ["security"]
+  }
+}
