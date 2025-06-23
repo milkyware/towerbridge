@@ -41,7 +41,7 @@ jobs:
 
       - name: Docker Metadata
         id: docker-metadata
-        uses: docker/metadata-action@v4.0.1
+        uses: docker/metadata-action@v4.6.0
         with:
           flavor: |
             latest=auto
