@@ -16,7 +16,7 @@ jobs:
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
   build:
-    name: Build image and push
+    name: Build image
     runs-on: ubuntu-latest
     
     steps:
@@ -38,7 +38,7 @@ jobs:
         with: 
           version: latest
       
-      - name: Docker build
+      - name: Docker Duild
         id: docker-build-push
         uses: docker/build-push-action@v2.3.0
         with:
