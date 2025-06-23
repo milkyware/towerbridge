@@ -1,15 +1,8 @@
 ﻿using HtmlAgilityPack;
-using LazyCache;
-using LazyCache.Mocks;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using NSubstitute;
 using NUnit.Framework;
 using TowerBridge.API.Clients;
-using TowerBridge.API.Models;
-using TowerBridge.API.Options;
-using TowerBridge.API.Services;
 using TowerBridge.Tests.Properties;
 
 namespace TowerBridge.API.Services.Tests
@@ -19,13 +12,6 @@ namespace TowerBridge.API.Services.Tests
     {
         private IDateTimeService _dateTimeService;
         private ILogger<TowerBridgeService> _logger;
-
-        [SetUp()]
-        public void Setup()
-        {
-            _dateTimeService = Substitute.For<IDateTimeService>();
-            _logger = Substitute.For<ILogger<TowerBridgeService>>();
-        }
 
         [Test()]
         [TestCase(nameof(Resources.BridgeLiftsScheduled),
@@ -44,24 +30,24 @@ namespace TowerBridge.API.Services.Tests
             var service = new TowerBridgeService(_dateTimeService, _logger, towerBridgeClient);
             var lifts = await service.GetAllAsync();
 
-            Assert.NotNull(lifts);
-            Assert.AreEqual(expectedLifts, lifts.Count());
+            Assert.That(lifts, Is.Not.Null);
+            Assert.That(expectedLifts, Is.EqualTo(lifts.Count()));
         }
 
         [Test()]
-        [TestCase(nameof(Resources.BridgeLiftsScheduled), 
-            "2023-01-01T00:00:00", 
-            false, 
-            "2023-01-13T18:30:00", 
+        [TestCase(nameof(Resources.BridgeLiftsScheduled),
+            "2023-01-01T00:00:00",
+            false,
+            "2023-01-13T18:30:00",
             Description = "On 1/1/23 the next lift is 13/1/23 18:30")]
-        [TestCase(nameof(Resources.BridgeLiftsScheduled), 
+        [TestCase(nameof(Resources.BridgeLiftsScheduled),
             "2023-01-14T00:00:00",
-            false, 
-            "2023-01-14T22:15:00", 
+            false,
+            "2023-01-14T22:15:00",
             Description = "On 14/1/23 the next lift is 14/1/23 22:15")]
-        [TestCase(nameof(Resources.BridgeLiftsNonScheduled), 
+        [TestCase(nameof(Resources.BridgeLiftsNonScheduled),
             "2023-01-14T00:00:00",
-            true, 
+            true,
             Description = "On 14/1/23 the next lift is 14/1/23 22:15")]
         public async Task GetNextAsyncTest(string sampleResource, string date, bool expectedNull, string expectedDate = default)
         {
@@ -80,23 +66,23 @@ namespace TowerBridge.API.Services.Tests
 
             if (expectedNull)
             {
-                Assert.IsNull(lift);
+                Assert.That(lift, Is.Null);
             }
             else
             {
-                Assert.NotNull(lift);
-                Assert.AreEqual(DateTime.Parse(expectedDate), lift.Date);
+                Assert.That(lift, Is.Not.Null);
+                Assert.That(DateTime.Parse(expectedDate), Is.EqualTo(lift.Date));
             }
         }
 
         [Test()]
-        [TestCase(nameof(Resources.BridgeLiftsScheduled), 
-            "2023-01-01T00:00:00", 
-            0, 
+        [TestCase(nameof(Resources.BridgeLiftsScheduled),
+            "2023-01-01T00:00:00",
+            0,
             Description = "Expects 0 bridge lifts for 1/1/23")]
-        [TestCase(nameof(Resources.BridgeLiftsScheduled), 
-            "2023-01-13T00:00:00", 
-            4, 
+        [TestCase(nameof(Resources.BridgeLiftsScheduled),
+            "2023-01-13T00:00:00",
+            4,
             Description = "Expects 4 bridge lifts for 13/1/23")]
         [TestCase(nameof(Resources.BridgeLiftsNonScheduled),
             "2023-01-01T00:00:00",
@@ -116,8 +102,15 @@ namespace TowerBridge.API.Services.Tests
 
             var service = new TowerBridgeService(_dateTimeService, _logger, towerBridgeClient);
             var lifts = await service.GetTodayAsync();
-            Assert.NotNull(lifts);
-            Assert.AreEqual(expectedLifts, lifts.Count());
+            Assert.That(lifts, Is.Not.Null);
+            Assert.That(expectedLifts, Is.EqualTo(lifts.Count()));
+        }
+
+        [SetUp()]
+        public void Setup()
+        {
+            _dateTimeService = Substitute.For<IDateTimeService>();
+            _logger = Substitute.For<ILogger<TowerBridgeService>>();
         }
     }
 }
