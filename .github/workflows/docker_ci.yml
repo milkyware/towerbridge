@@ -28,7 +28,7 @@ jobs:
         
       - name: Repository Owner Lower
         id: repository_owner_lower
-        uses: ASzc/change-string-case-action@v2
+        uses: ASzc/change-string-case-action@v6
         with:
           string: "${{github.repository_owner}}"
       
