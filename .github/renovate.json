@@ -11,7 +11,7 @@
     "{{updateType}}"
   ],
   "automergeStrategy": "squash",
-  "minimumReleaseAge": "7",
+  "minimumReleaseAge": "14 days",
   "separateMajorMinor": true,
   "vulnerabilityAlerts": {
     "labels": ["security"]
