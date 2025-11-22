@@ -1,4 +1,4 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS base
+﻿FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
@@ -7,9 +7,9 @@ LABEL org.opencontainers.image.title="TowerBridge API"
 LABEL org.opencontainers.image.documentation="https://github.com/milkyware/towerbridge/blob/main/README.md"
 VOLUME /logs
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /sln
-COPY *.sln .
+COPY *.slnx .
 COPY ./src/TowerBridge.API/*.csproj /sln/src/TowerBridge.API/
 COPY ./tests/TowerBridge.Tests/*.csproj /sln/tests/TowerBridge.Tests/
 RUN dotnet restore
