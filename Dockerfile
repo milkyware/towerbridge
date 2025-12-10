@@ -10,21 +10,20 @@ LABEL org.opencontainers.image.documentation="https://github.com/milkyware/tower
 VOLUME /logs
 
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:10.0 AS build
-ARG CONFIGURATION TARGETARCH
-WORKDIR /sln
+ARG CONFIGURATION
+WORKDIR /work
 COPY *.slnx .
-COPY ./src/TowerBridge.API/*.csproj /sln/src/TowerBridge.API/
-COPY ./tests/TowerBridge.Tests/*.csproj /sln/tests/TowerBridge.Tests/
-RUN dotnet restore -a $TARGETARCH
+COPY ./src/ src/
+RUN dotnet build src/TowerBridge.API/TowerBridge.API.csproj -c $CONFIGURATION --nologo
 
 FROM build AS test
-ARG CONFIGURATION TARGETARCH
+ARG CONFIGURATION
 COPY . .
-RUN dotnet test -c Debug
+RUN dotnet test -c $CONFIGURATION
 
-FROM build AS publish
-COPY ./src/ ./src/
-RUN dotnet publish -c Release -o /app/publish
+FROM test AS publish
+ARG CONFIGURATION
+RUN dotnet publish src/TowerBridge.API/TowerBridge.API.csproj -c $CONFIGURATION -o /app/publish --no-build --nologo
 
 FROM base AS scan
 WORKDIR /app
