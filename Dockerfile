@@ -28,7 +28,7 @@ RUN dotnet publish src/TowerBridge.API/TowerBridge.API.csproj -c $CONFIGURATION 
 FROM base AS scan
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY --from=aquasec/trivy:latest /usr/local/bin/trivy /usr/local/bin/trivy
+COPY --from=aquasec/trivy:latest@sha256:af6acf9a6b85dfe389a1941505c0ce9efef52a4719635e1a962f022a3d855daa /usr/local/bin/trivy /usr/local/bin/trivy
 RUN trivy fs --exit-code 1 --severity CRITICAL,HIGH --no-progress /
 RUN rm -rf /usr/local/bin/trivy
 
