@@ -1,0 +1,55 @@
+name: Bridge Lift Health Check
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"   # Mondays, 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bridge-lift-healthcheck
+  cancel-in-progress: false
+
+jobs:
+  healthcheck:
+    name: Scrape the live site through the API
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Build image
+        run: docker build -t towerbridge:healthcheck .
+
+      - name: Run container
+        run: |
+          docker run -d --name tb-health -p 8080:8080 \
+            -e TZ=Europe/London \
+            -e TOWERBRIDGE__CACHINGEXPIRATION=00:05:00 \
+            towerbridge:healthcheck
+
+      - name: Check bridge lifts
+        shell: pwsh
+        run: ./.github/scripts/Check-BridgeLifts.ps1 -BaseUrl http://localhost:8080
+
+      - name: Diagnose
+        if: failure()
+        shell: pwsh
+        run: |
+          Write-Host '--- container logs ---'
+          docker logs tb-health 2>&1 | Write-Host
+          Write-Host '--- live site markers ---'
+          try {
+            $html = (Invoke-WebRequest 'https://www.towerbridge.org.uk/bridge-lifts' -UseBasicParsing -TimeoutSec 30).Content
+            Write-Host "time-table__heading present: $($html -match 'time-table__heading')"
+            Write-Host "bridge-lift-row present:     $($html -match 'bridge-lift-row')"
+          } catch { Write-Host "live fetch failed: $_" }
+
+      - name: Cleanup
+        if: always()
+        run: docker rm -f tb-health || true

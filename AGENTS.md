@@ -74,12 +74,16 @@ e.g. `Thursday 8 October 2026`) plus the row time (`HH:mm`) — the new page has
   `vX.Y.Z`. The version is a marker-wrapped `<Version>` in `src/TowerBridge.API/TowerBridge.API.csproj`
   (`x-release-please-start-version` / `end`) and is bumped automatically — do not hand-edit it.
 - A release triggers `release-docker.yml`, which pushes multi-arch images to Docker Hub, GHCR and Quay.
+- A weekly **Bridge Lift health check** (`health-check.yml`) builds the image from the default branch,
+  runs it, and calls `/api/bridgelifts`, asserting a non-empty, well-formed payload (script:
+  `.github/scripts/Check-BridgeLifts.ps1`). A bare `200` is not enough — the defensive parser
+  returns `200 []` when the selectors stop matching. Also runnable via `workflow_dispatch`.
 - `.github/actions/` holds **vendored local composite actions** (`short-sha`, `label-pr`,
   `validate-pr-title`). `milkyware/towerbridge` is public while `milkyware/actions` is private, so
   workflows cannot reference `milkyware/actions/*` — add a local action instead.
-- Workflow files are `ci-docker.yml` / `release-docker.yml`, but `TowerBridge.slnx` and the
-  `ci-docker.yml` path filters still reference the old names `docker_ci.yml` / `docker_release.yml`;
-  editing `ci-docker.yml` itself will not trigger Docker CI.
+- Workflow files are `ci-docker.yml` / `release-docker.yml`; `TowerBridge.slnx` lists them under their
+  real names. `ci-docker.yml`'s own `paths` filters still reference the old names
+  `docker_ci.yml` / `docker_release.yml`, so editing `ci-docker.yml` itself will not trigger Docker CI.
 
 ## Tooling notes
 
