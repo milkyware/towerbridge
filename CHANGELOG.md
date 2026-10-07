@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/milkyware/towerbridge/compare/v2.1.4...v3.0.0) (2026-10-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* bridge lift parsing ([#126](https://github.com/milkyware/towerbridge/issues/126))
+
+### 🩹 Fixes
+
+* bridge lift parsing ([#126](https://github.com/milkyware/towerbridge/issues/126)) ([f403052](https://github.com/milkyware/towerbridge/commit/f403052dae584fb3dfa4f85b4751cd37225f649b))
+
 ## [2.1.4](https://github.com/milkyware/towerbridge/compare/v2.1.3...v2.1.4) (2026-10-07)
 
 
