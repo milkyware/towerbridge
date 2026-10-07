@@ -20,8 +20,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    name: Build and scan image
+  job:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
