@@ -4,6 +4,8 @@
     <File Path=".gitattributes" />
     <File Path=".github/workflows/docker_ci.yml" />
     <File Path=".github/workflows/docker_release.yml" />
+    <File Path=".github/workflows/release-please.yml" />
+    <File Path=".github/workflows/validate-pr-title.yml" />
     <File Path=".gitignore" />
     <File Path="docker-compose.yml" />
     <File Path="Dockerfile" />
