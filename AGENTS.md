@@ -3,8 +3,9 @@
 ## What this is
 
 TowerBridge API: an ASP.NET Core minimal API (`net10.0`) that screen-scrapes Tower Bridge
-lift times from <https://www.towerbridge.org.uk/lift-times> with HtmlAgilityPack and caches
-the fetched HTML with LazyCache. One app project plus one test project — no monorepo here.
+bridge lifts from <https://www.towerbridge.org.uk/bridge-lifts> (the old `/lift-times` URL
+301-redirects here) with HtmlAgilityPack and caches the fetched HTML with LazyCache. One app
+project plus one test project — no monorepo here.
 
 ## Layout
 
@@ -29,14 +30,19 @@ the fetched HTML with LazyCache. One app project plus one test project — no mo
 ## API surface
 
 Minimal API endpoints in `Program.cs`, all under `/api/bridgelifts`: all lifts, `/next`, `/today`.
-Model: `BridgeLift { Date, Vessel, Direction }`; `Date` is parsed from the page
+Model: `BridgeLift { Date, Vessel, VesselType, Direction }`. `Direction` is the
+`BridgeLiftDirection` enum (`UpRiver` / `DownRiver` / `Unknown`), serialised as a string via
+`JsonStringEnumConverter`. `Date` is composed from the day heading (`h3.time-table__heading`,
+e.g. `Thursday 8 October 2026`) plus the row time (`HH:mm`) — the new page has no per-row
 `<time datetime="...">` attribute.
 
 ## Testing gotchas
 
-- Fixtures are captured HTML in `tests/TowerBridge.Tests/Samples/*.html`, embedded through
-  `Properties/Resources.resx` and read as `Resources.BridgeLiftsScheduled` / `BridgeLiftsNonScheduled`.
-  Reading or changing parsing means updating the `.html` sample and the expected counts/rows together.
+- Fixtures are trimmed Craft CMS-format HTML in `tests/TowerBridge.Tests/Samples/*.html`, embedded
+  through `Properties/Resources.resx` and read as `Resources.BridgeLiftsScheduled` /
+  `BridgeLiftsNonScheduled`. They deliberately include edge rows (a `00:00` lift, a missing
+  direction and the literal `Vessel` placeholder). Reading or changing parsing means updating the
+  `.html` sample and the expected counts/rows together.
 - The service takes `IDateTimeService`, so tests control "now"/"today"; production uses
   `DateTime.Now`/`DateTime.Today`.
 - **Passing tests do not prove the live endpoint works.** Selectors in `TowerBridgeService`
@@ -59,8 +65,6 @@ Model: `BridgeLift { Date, Vessel, Direction }`; `Date` is parsed from the page
   the packages/`using Serilog` are present, but `builder.Host.UseSerilog()` is never called, so
   `/logs/log.txt` is never written and the Serilog sinks/levels are inert — logging goes through
   the default Microsoft logger.
-- `/api/bridgelifts` returns HTTP 500 because the screen-scraper's HTML selectors no longer match
-  the live towerbridge.org.uk page. (Current branch: `fix/bridge-lift-parsing`.)
 
 ## Releases & CI
 
@@ -80,6 +84,6 @@ Model: `BridgeLift { Date, Vessel, Direction }`; `Date` is parsed from the page
 ## Tooling notes
 
 - No `Directory.Build.props`, `.editorconfig`, `global.json`, or lint step. `Nullable` is enabled and
-  the build emits CS8618/CS8602 warnings; CI only fails on test failures and Trivy CRITICAL/HIGH, so
+  the build emits CS8618/CS8603 warnings; CI only fails on test failures and Trivy CRITICAL/HIGH, so
   do not treat warnings as blockers unless asked.
 - `.vscode/launch.json` still points at `bin/Debug/net6.0`; prefer `dotnet run` (the target is net10.0).
