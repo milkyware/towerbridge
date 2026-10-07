@@ -3,6 +3,8 @@
   "extends": [
     "config:recommended",
     ":automergeMinor",
+    "docker:pinDigests",
+    "helpers:pinGitHubActionDigestsToSemver",
     "security:openssf-scorecard"
   ],
   "labels": [
