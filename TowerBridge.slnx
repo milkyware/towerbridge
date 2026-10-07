@@ -2,8 +2,9 @@
   <Folder Name="/solution/">
     <File Path=".dockerignore" />
     <File Path=".gitattributes" />
-    <File Path=".github/workflows/docker_ci.yml" />
-    <File Path=".github/workflows/docker_release.yml" />
+    <File Path=".github/workflows/ci-docker.yml" />
+    <File Path=".github/workflows/health-check.yml" />
+    <File Path=".github/workflows/release-docker.yml" />
     <File Path=".github/workflows/release-please.yml" />
     <File Path=".github/workflows/validate-pr-title.yml" />
     <File Path=".gitignore" />

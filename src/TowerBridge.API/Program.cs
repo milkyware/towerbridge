@@ -7,10 +7,13 @@ using Serilog.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using TowerBridge.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.ConfigureHttpJsonOptions(options =>
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddTowerBridgeService(builder.Configuration.GetSection("TowerBridge").Bind);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

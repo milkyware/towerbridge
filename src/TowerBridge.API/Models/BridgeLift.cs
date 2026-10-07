@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System;
 
 namespace TowerBridge.API.Models
 {
@@ -11,6 +8,8 @@ namespace TowerBridge.API.Models
 
         public string Vessel { get; set; }
 
-        public string Direction { get; set; }
+        public string VesselType { get; set; }
+
+        public BridgeLiftDirection Direction { get; set; }
     }
 }

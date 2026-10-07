@@ -14,7 +14,9 @@ A small Web API to test out [HtmlAgilityPack](https://html-agility-pack.net/). T
 
 ## Description
 
-The API loads the HTML table from Tower Bridge [lift times](https://www.towerbridge.org.uk/lift-times) and then builds an array of bridge lift times. Microsoft's in-memory caching has also been used to improve performance.
+The API loads the bridge lift timetable from Tower Bridge [bridge lifts](https://www.towerbridge.org.uk/bridge-lifts) and then builds an array of bridge lift times. Microsoft's in-memory caching has also been used to improve performance.
+
+Each bridge lift exposes its `date`, `vessel`, `vesselType` (for example `Paddle Steamer`) and `direction` (`UpRiver`, `DownRiver` or `Unknown`).
 
 ## Docker
 

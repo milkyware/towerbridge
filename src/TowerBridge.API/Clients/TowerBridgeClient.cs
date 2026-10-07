@@ -9,7 +9,7 @@ namespace TowerBridge.API.Clients
     public class TowerBridgeClient : ITowerBridgeClient
     {
         private const string TOWERBRIDGE_CACHE = "TowerBridge";
-        private const string TOWERBRIDGE_URL = "https://www.towerbridge.org.uk/lift-times";
+        private const string TOWERBRIDGE_URL = "https://www.towerbridge.org.uk/bridge-lifts";
 
         private IAppCache _cache;
         private ILogger _logger;
