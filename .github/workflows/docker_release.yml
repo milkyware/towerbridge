@@ -25,8 +25,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Shorten Git Hash
-        id: shorten-sha
+      - name: Short SHA
+        id: short-sha
         uses: ./.github/actions/short-sha
 
       - name: Set up QEMU
@@ -82,7 +82,7 @@ jobs:
           builder: ${{ steps.docker-buildx.outputs.name }}
           context: .
           build-args: |
-            REVISION=${{ steps.shorten-sha.outputs.sha }}
+            REVISION=${{ steps.short-sha.outputs.sha }}
             VERSION=${{ inputs.version }}
           platforms: linux/arm64,linux/amd64
           push: true
