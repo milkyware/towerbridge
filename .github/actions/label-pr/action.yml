@@ -1,0 +1,27 @@
+name: Label PR
+description: Labels PR with context about the PR
+inputs:
+  label:
+    description: The name of the label to manage
+    required: true
+  removal-condition:
+    description: If true, the label will be removed instead of added
+    required: false
+    default: "false"
+  token:
+    description: GitHub token for accessing PRs, defaults to using github.token
+runs:
+  using: composite
+  steps:
+    - name: Label PR
+      id: label-pr
+      shell: pwsh
+      env:
+        GH_TOKEN: ${{ inputs.token || github.token }}
+        LABEL: ${{ inputs.label }}
+        REMOVAL_CONDITION: ${{ inputs.removal-condition }}
+      run: |
+        ${{ github.action_path }}/LabelPR.ps1 -Label "$env:LABEL" `
+          -Repo ${{ github.repository }} `
+          -PRNumber ${{ github.event.pull_request.number }} `
+          -RemovalCondition ([System.Convert]::ToBoolean("$env:REMOVAL_CONDITION"))

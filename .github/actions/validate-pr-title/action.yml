@@ -1,0 +1,53 @@
+name: Validate PR Title
+description: Validates PR title follows Conventional Commits and labels accordingly
+
+inputs:
+  token:
+    description: GitHub token for accessing and validating PRs, defaults to using github.token
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: Semantic PR Title Check
+      uses: amannn/action-semantic-pull-request@48f256284bd46cdaab1048c3721360e808335d50 # v6.1.1
+      id: semantic-pr
+      env:
+        GITHUB_TOKEN: ${{ inputs.token || github.token }}
+
+    - name: Add Invalid PR Title Comment
+      uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
+      if: always() && steps.semantic-pr.outputs.error_message != ''
+      with:
+        header: pr-title-lint-error
+        recreate: true
+        message: |
+          This pull request title does not match the required Conventional Commits format.
+
+          Details:
+
+          ```
+          ${{ steps.semantic-pr.outputs.error_message }}
+          ```
+
+    - name: Delete Invalid PR Title Comment
+      uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
+      if: always() && steps.semantic-pr.outputs.error_message == ''
+      with:
+        header: pr-title-lint-error
+        delete: true
+
+    - name: Label PR Type
+      uses: ./.github/actions/label-pr
+      if: ${{ steps.semantic-pr.outputs.type != '' }}
+      with:
+        label: ${{ steps.semantic-pr.outputs.type }}
+        token: ${{ inputs.token || github.token }}
+
+    - name: Toggle Invalid Label
+      uses: ./.github/actions/label-pr
+      if: always()
+      with:
+        label: "invalid-pr-title"
+        removal-condition: ${{ steps.semantic-pr.outputs.error_message == '' }}
+        token: ${{ inputs.token || github.token }}

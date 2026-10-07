@@ -1,0 +1,17 @@
+name: Short SHA
+description: Shortens the Git hash to 8 characters for use in other steps.
+
+outputs:
+  sha:
+    description: The shortened source version hash.
+    value: ${{ steps.shorten.outputs.sha }}
+
+runs:
+  using: composite
+  steps:
+    - name: Shorten
+      id: shorten
+      shell: pwsh
+      run: |
+        $sha = git rev-parse --short "${{ github.sha }}"
+        "sha=$sha" >> $env:GITHUB_OUTPUT
