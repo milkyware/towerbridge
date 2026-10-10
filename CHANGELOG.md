@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/milkyware/towerbridge/compare/v3.0.0...v3.0.1) (2026-10-10)
+
+
+### 🧹 Maintenance
+
+* **deps:** update dependency nunit3testadapter to 6.3.1 ([#128](https://github.com/milkyware/towerbridge/issues/128)) ([159bdf1](https://github.com/milkyware/towerbridge/commit/159bdf1f61f94b90c8470785312ed72f15c985c7))
+
 ## [3.0.0](https://github.com/milkyware/towerbridge/compare/v2.1.4...v3.0.0) (2026-10-07)
 
 
