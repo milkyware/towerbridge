@@ -1,5 +1,15 @@
 # Changelog
 
+## [3.0.1](https://github.com/milkyware/towerbridge/compare/v3.0.0...v3.0.1) (2026-10-24)
+
+
+### 🧹 Maintenance
+
+* **deps:** update dependency htmlagilitypack to 1.13.1 ([#130](https://github.com/milkyware/towerbridge/issues/130)) ([7d19cf4](https://github.com/milkyware/towerbridge/commit/7d19cf42ea0e6e1cf6ac89031ecfcc1bd85b58da))
+* **deps:** update dependency microsoft.net.test.sdk to 18.11.0 ([#131](https://github.com/milkyware/towerbridge/issues/131)) ([b6074ca](https://github.com/milkyware/towerbridge/commit/b6074cab34d3d24c18f2c944d577e54451f7c647))
+* **deps:** update dependency nunit3testadapter to 6.3.1 ([#128](https://github.com/milkyware/towerbridge/issues/128)) ([159bdf1](https://github.com/milkyware/towerbridge/commit/159bdf1f61f94b90c8470785312ed72f15c985c7))
+* **deps:** update docker/login-action action to v4.7.0 ([#133](https://github.com/milkyware/towerbridge/issues/133)) ([a68632a](https://github.com/milkyware/towerbridge/commit/a68632a593269adc8c484605ccf883adf5009774))
+
 ## [3.0.0](https://github.com/milkyware/towerbridge/compare/v2.1.4...v3.0.0) (2026-10-07)
 
 
