@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.OpenApi;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi;
+using Scalar.AspNetCore;
 using Serilog;
 using Serilog.Events;
 using System;
@@ -15,13 +18,21 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureHttpJsonOptions(options =>
     options.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddTowerBridgeService(builder.Configuration.GetSection("TowerBridge").Bind);
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddSwaggerGenNewtonsoftSupport();
+builder.Services.AddOpenApi(options =>
+{
+    // Direction is serialised as a string (JsonStringEnumConverter), but the OpenAPI generator
+    // emits enums without a type, which makes generated clients treat them as untyped values.
+    options.AddSchemaTransformer((schema, context, _) =>
+    {
+        if (context.JsonTypeInfo.Type.IsEnum)
+            schema.Type = JsonSchemaType.String;
+        return Task.CompletedTask;
+    });
+});
 
 var app = builder.Build();
-app.UseSwagger();
-app.UseSwaggerUI();
+app.MapOpenApi();
+app.MapScalarApiReference();
 
 app.MapGet("/api/bridgelifts", async (ITowerBridgeService service) =>
 {
