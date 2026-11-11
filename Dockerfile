@@ -4,7 +4,7 @@ ARG CONFIGURATION=Release
 ARG REVISION
 ARG VERSION
 
-FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:10.0@sha256:e70cdb7f80b0348f5cb85f19a8f670fca061f033d57eed12fa003d58b0e06317 AS build
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:10.0@sha256:fe0fd4e93bd2fbb47c883b7a6369e5c8d3db8bf01cdc5981f6ee35fbdf3ff4fb AS build
 ARG CONFIGURATION
 ARG REVISION
 ARG VERSION
@@ -46,7 +46,7 @@ RUN --mount=type=cache,target=/root/.nuget/packages,sharing=locked \
         --nologo && \
     mkdir -p /logs
 
-FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble-chiseled-extra@sha256:00e0ad6a7ef8c0c1391b87f05c7ac757a15740455688f2bfcd146a3f4b987efd AS final
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble-chiseled-extra@sha256:cae5b962bfb786606def03d250c6a645cc98839095c89e806e4bd8978a68115b AS final
 WORKDIR /app
 COPY --from=publish --chown=$APP_UID:$APP_UID /app/publish .
 COPY --from=publish --chown=$APP_UID:$APP_UID /logs /logs
