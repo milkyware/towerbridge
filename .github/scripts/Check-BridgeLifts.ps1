@@ -21,7 +21,7 @@ Write-Host 'Waiting for API to become ready...'
 $ready = $false
 for ($i = 0; $i -lt 60; $i++) {
     try {
-        Invoke-WebRequest "$BaseUrl/swagger/index.html" -UseBasicParsing -TimeoutSec 5 | Out-Null
+        Invoke-WebRequest "$BaseUrl/scalar/v1" -UseBasicParsing -TimeoutSec 5 | Out-Null
         $ready = $true
         break
     } catch {
