@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.1](https://github.com/milkyware/towerbridge/compare/v3.1.0...v3.1.1) (2026-11-12)
+
+
+### 🧹 Maintenance
+
+* **deps:** update dependency scalar.aspnetcore to 2.21.0 ([#141](https://github.com/milkyware/towerbridge/issues/141)) ([f7bc230](https://github.com/milkyware/towerbridge/commit/f7bc230ade5f92db7c0ce5320cafa1d08fc6d8c8))
+
 ## [3.1.0](https://github.com/milkyware/towerbridge/compare/v3.0.0...v3.1.0) (2026-11-11)
 
 
