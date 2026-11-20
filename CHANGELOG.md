@@ -1,5 +1,22 @@
 # Changelog
 
+## [3.1.1](https://github.com/milkyware/towerbridge/compare/v3.1.0...v3.1.1) (2026-11-20)
+
+
+### 🩹 Fixes
+
+* remove BuildKit cache mounts from the dotnet build steps ([#147](https://github.com/milkyware/towerbridge/issues/147)) ([812f4c8](https://github.com/milkyware/towerbridge/commit/812f4c8cd1e276b2c6fb0dbb273643e84904d3f2))
+* removed docker caching from dotnet commands ([812f4c8](https://github.com/milkyware/towerbridge/commit/812f4c8cd1e276b2c6fb0dbb273643e84904d3f2))
+
+
+### 🧹 Maintenance
+
+* **deps:** update dependency scalar.aspnetcore to 2.21.0 ([#141](https://github.com/milkyware/towerbridge/issues/141)) ([f7bc230](https://github.com/milkyware/towerbridge/commit/f7bc230ade5f92db7c0ce5320cafa1d08fc6d8c8))
+* **deps:** update dependency scalar.aspnetcore to v3 ([#143](https://github.com/milkyware/towerbridge/issues/143)) ([65b0fc5](https://github.com/milkyware/towerbridge/commit/65b0fc5066d3b9d030d7dbfe8871bd924b0de4ac))
+* **deps:** update dependency serilog.aspnetcore to v11 ([#144](https://github.com/milkyware/towerbridge/issues/144)) ([81c9759](https://github.com/milkyware/towerbridge/commit/81c975906033e437eaf994be5b29b45054912fe1))
+* **deps:** update dependency serilog.settings.configuration to v11 ([#145](https://github.com/milkyware/towerbridge/issues/145)) ([a248a68](https://github.com/milkyware/towerbridge/commit/a248a68e0310c9a2f831193e4b1f7a6272d834a3))
+* **deps:** update docker/dockerfile:1 docker digest to 572cebb ([#146](https://github.com/milkyware/towerbridge/issues/146)) ([8db94e1](https://github.com/milkyware/towerbridge/commit/8db94e1374366f308e48669e52b13f3cbbaf2337))
+
 ## [3.1.0](https://github.com/milkyware/towerbridge/compare/v3.0.0...v3.1.0) (2026-11-11)
 
 
