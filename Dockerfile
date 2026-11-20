@@ -14,13 +14,11 @@ WORKDIR /work
 
 COPY *.slnx ./
 COPY --parents src/*/*.csproj tests/*/*.csproj ./
-RUN --mount=type=cache,target=/root/.nuget/packages,sharing=locked \
-    dotnet restore TowerBridge.slnx
+RUN dotnet restore TowerBridge.slnx
 
 COPY src/ src/
 COPY tests/ tests/
-RUN --mount=type=cache,target=/root/.nuget/packages,sharing=locked \
-    dotnet build TowerBridge.slnx \
+RUN dotnet build TowerBridge.slnx \
         -c "$CONFIGURATION" \
         ${REVISION:+-p:SourceRevisionId=$REVISION} \
         ${VERSION:+-p:Version=$VERSION} \
@@ -29,16 +27,14 @@ RUN --mount=type=cache,target=/root/.nuget/packages,sharing=locked \
 
 FROM build AS test
 ARG CONFIGURATION
-RUN --mount=type=cache,target=/root/.nuget/packages,sharing=locked \
-    dotnet test TowerBridge.slnx \
+RUN dotnet test TowerBridge.slnx \
         -c "$CONFIGURATION" \
         --no-build \
         --nologo
 
 FROM test AS publish
 ARG CONFIGURATION
-RUN --mount=type=cache,target=/root/.nuget/packages,sharing=locked \
-    dotnet publish src/TowerBridge.API/TowerBridge.API.csproj \
+RUN dotnet publish src/TowerBridge.API/TowerBridge.API.csproj \
         -c "$CONFIGURATION" \
         -o /app/publish \
         --no-build \
