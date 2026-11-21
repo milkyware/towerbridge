@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.2](https://github.com/milkyware/towerbridge/compare/v3.1.1...v3.1.2) (2026-11-21)
+
+
+### 🧹 Maintenance
+
+* **deps:** update amannn/action-semantic-pull-request action to v6.1.3 ([#148](https://github.com/milkyware/towerbridge/issues/148)) ([56ca748](https://github.com/milkyware/towerbridge/commit/56ca748bf7fa42c33a0f4bf777b5e437db64b481))
+
 ## [3.1.1](https://github.com/milkyware/towerbridge/compare/v3.1.0...v3.1.1) (2026-11-20)
 
 
