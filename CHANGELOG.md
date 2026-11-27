@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.1.2](https://github.com/milkyware/towerbridge/compare/v3.1.1...v3.1.2) (2026-11-27)
+
+
+### 🧹 Maintenance
+
+* **deps:** update amannn/action-semantic-pull-request action to v6.1.3 ([#148](https://github.com/milkyware/towerbridge/issues/148)) ([56ca748](https://github.com/milkyware/towerbridge/commit/56ca748bf7fa42c33a0f4bf777b5e437db64b481))
+* **deps:** update amannn/action-semantic-pull-request action to v6.1.4 ([#151](https://github.com/milkyware/towerbridge/issues/151)) ([ea5496a](https://github.com/milkyware/towerbridge/commit/ea5496a85044eaf6729c1642bb38e12c6d9598f4))
+* **deps:** update dependency scalar.aspnetcore to 3.2.0 ([#150](https://github.com/milkyware/towerbridge/issues/150)) ([18c0db6](https://github.com/milkyware/towerbridge/commit/18c0db6e87fc76ef729d79596dbb6c70d22ecbcc))
+* **deps:** update dependency scalar.aspnetcore to 3.2.1 ([#152](https://github.com/milkyware/towerbridge/issues/152)) ([62fe35b](https://github.com/milkyware/towerbridge/commit/62fe35b5617998407fbd3d8d84adf3977d1fc27d))
+* **deps:** update dependency scalar.aspnetcore to 3.3.0 ([#154](https://github.com/milkyware/towerbridge/issues/154)) ([f4c8179](https://github.com/milkyware/towerbridge/commit/f4c8179d9fbeed04a0001b921c47436f1f5d27c4))
+* **deps:** update dependency serilog.sinks.seq to 9.2.0 ([#153](https://github.com/milkyware/towerbridge/issues/153)) ([a8a2659](https://github.com/milkyware/towerbridge/commit/a8a2659fa481d116ba620a2991d8284dbadf0815))
+
 ## [3.1.1](https://github.com/milkyware/towerbridge/compare/v3.1.0...v3.1.1) (2026-11-20)
 
 
